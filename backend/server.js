@@ -1,3 +1,7 @@
+require('dotenv').config();
+const { DB_URL, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
+const connect_url = `mmongodb+srv://${DB_USERNAME}:${DB_PASSWORD$}@{DB_URL}/${DB_NAME}?retryWrites=true&w=majority`;
+
 const http = require('http');
 const app = require('./app');
 

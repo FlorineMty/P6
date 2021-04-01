@@ -1,3 +1,5 @@
+const { DB_URL, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
+const connect_url = `mmongodb+srv://${DB_USERNAME}:${DB_PASSWORD$}@{DB_URL}/${DB_NAME}?retryWrites=true&w=majority`;
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -7,9 +9,12 @@ const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 const path = require('path');
 
-mongoose.connect('mmongodb+srv://Florine_M:ELGhRWkBUSZJvxky@cluster0.uucdz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect(connect_url,
   { useNewUrlParser: true,
-    useUnifiedTopology: true })
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
@@ -25,7 +30,11 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/sauces', saucesRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', (req, res, next) => {
+ console.log("Route ok")
+ next() 
+}, userRoutes);
+// app.use('/api/auth', userRoutes); 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
