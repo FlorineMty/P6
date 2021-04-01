@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
+// création d'un schéma de donné qui contient les champs souhaités pour chaque sauce (obligatoire ou non)
 const sauceSchema = mongoose.Schema({
-  id: { type: Object, required: true },
   userId: { type: String, required: true },
   name: { type: String, required: true },
   manufacturer: { type: String, required: true },
@@ -15,4 +15,5 @@ const sauceSchema = mongoose.Schema({
   usersDisliked: { type: [String], required: true },
 });
 
+// Export du schéma en tant que modèle Mongoose appelé « Sauce », le rendant disponible pour notre application
 module.exports = mongoose.model('Sauce', sauceSchema);

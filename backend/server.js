@@ -1,8 +1,9 @@
-require('dotenv').config();
+require('dotenv').config(); // Permet de séparer les informations de connexion du code source à l'aide de variables d'environnement
 
-const http = require('http');
-const app = require('./app');
+const http = require('http'); // Import du package HTTP
+const app = require('./app'); // Import de app pour l'utilisation de l'application sur le serveur
 
+// Fonction qui renvoie un port valide que ce soit une chaine de caractère ou un numéro
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -14,9 +15,13 @@ const normalizePort = val => {
   }
   return false;
 };
+
+// Par défaut l'écoute se fera sur le port 3000
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+// Recherche les différentes erreurs et les gère de manière appropriée. 
+// La fonction est ensuite enregistrée dans le serveur
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -36,9 +41,9 @@ const errorHandler = error => {
       throw error;
   }
 };
-
+// Création d'un serveur avec une constante pour gérer les requêtes et les réponses
 const server = http.createServer(app);
-
+// Aperçu des événements sur la console avec lancement du server 
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();
@@ -46,4 +51,4 @@ server.on('listening', () => {
   console.log('So Pekocko Listening on ' + bind);
 });
 
-server.listen(port);
+server.listen(port); // Le serveur écoute le port définit au dessus
